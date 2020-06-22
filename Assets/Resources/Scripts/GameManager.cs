@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,9 +14,14 @@ public class GameManager : MonoBehaviour
     public static float speed;
     public static float obstacleSpawnDelay;
 
+    //GameOver
+    public GameObject gameOverGroup;
+    private int score = 0; 
+
     private bool changeSpawnDelay = true;
     private void Start()
     {
+        gameOverGroup.SetActive(false);        
         obstacleSpawnDelay = _upRangeDelay;
     }
     void Update()
@@ -50,5 +56,19 @@ public class GameManager : MonoBehaviour
         
         obstacleSpawnDelay = Random.Range(_downRangeDelay, _upRangeDelay);
         changeSpawnDelay = true;
+    }
+
+    private void GameOver(){        
+        gameOverGroup.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void RestartGame(){
+        gameOverGroup.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public int GetScore(){
+        return score;
     }
 }
