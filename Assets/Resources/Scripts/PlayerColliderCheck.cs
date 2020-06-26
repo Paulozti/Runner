@@ -6,6 +6,6 @@ public class PlayerColliderCheck : MonoBehaviour
 {   
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject.transform.parent.gameObject);
+        gameObject.transform.parent.gameObject.GetComponent<Player>().isDead = true;
     }
 }

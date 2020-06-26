@@ -6,6 +6,7 @@ public class GroundMove : MonoBehaviour
 {
     void Update()
     {
-        transform.Translate(new Vector3(-1, 0) * GameManager.speed * Time.deltaTime);        
+        if (GameManager.isPlaying)
+            transform.Translate(new Vector3(-1, 0) * GameManager.speed * Time.deltaTime);        
     }
 }

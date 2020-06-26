@@ -39,7 +39,7 @@ public class Records : FileReader
     }
 
     public void SaveRecord(){
-        int retorno = CheckRecordToSave(gameManager.GetScore());
+        int retorno = CheckRecordToSave(0);
         if (retorno > -1){
             //save
             int record = gameManager.GetScore();

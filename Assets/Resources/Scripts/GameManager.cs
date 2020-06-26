@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,14 +14,18 @@ public class GameManager : MonoBehaviour
 
     public static float speed;
     public static float obstacleSpawnDelay;
+    public static bool isPlaying = true;
 
     //GameOver
+    public static bool callGameOver = false;
     public GameObject gameOverGroup;
     private int score = 0; 
 
     private bool changeSpawnDelay = true;
-    private void Start()
+    private void Awake()
     {
+        score = 0;
+        callGameOver = false;
         gameOverGroup.SetActive(false);        
         obstacleSpawnDelay = _upRangeDelay;
     }
@@ -34,6 +39,12 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(ChangeSpawnDelay());
         }
+        if (callGameOver)
+            GameOver();
+        if (isPlaying)
+            score += 1;
+        
+            
     }
 
     private IEnumerator ChangeSpawnDelay()
@@ -53,22 +64,24 @@ public class GameManager : MonoBehaviour
             if (_downRangeDelay < 1)
                 _downRangeDelay = 1;
         }
+
+        _speed += 0.5f;
         
         obstacleSpawnDelay = Random.Range(_downRangeDelay, _upRangeDelay);
         changeSpawnDelay = true;
     }
 
-    private void GameOver(){        
+    public void GameOver(){        
         gameOverGroup.SetActive(true);
-        Time.timeScale = 0;
     }
 
     public void RestartGame(){
         gameOverGroup.SetActive(false);
-        Time.timeScale = 1;
+        SceneManager.UnloadSceneAsync(1);
+        SceneManager.LoadScene(1);
     }
 
     public int GetScore(){
-        return score;
+        return this.score;
     }
 }
